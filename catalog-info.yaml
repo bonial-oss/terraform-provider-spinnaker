@@ -1,0 +1,21 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: terraform-provider-spinnaker
+  description:
+    An open source terrafrom provider for spinnaker
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  links:
+    - url: https://registry.terraform.io/providers/Bonial-International-GmbH/spinnaker/latest
+  tags:
+    - terraform
+    - provider
+    - opensource
+    - iac
+    - go
+spec:
+  type: library
+  lifecycle: production
+  owner: ops
