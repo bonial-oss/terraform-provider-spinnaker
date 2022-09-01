@@ -249,6 +249,7 @@ func editAndEncodePipeline(pipeline map[string]interface{}) (string, error) {
 	delete(pipeline, "id")
 	delete(pipeline, "index")
 	delete(pipeline, "name")
+	delete(pipeline, "schema")
 	delete(pipeline, "updateTs")
 
 	encoded, err := json.Marshal(pipeline)
