@@ -8,7 +8,7 @@ import (
 	"github.com/Bonial-International-GmbH/terraform-provider-spinnaker/spinnaker/api"
 	apierrors "github.com/Bonial-International-GmbH/terraform-provider-spinnaker/spinnaker/api/errors"
 	"github.com/hashicorp/go-multierror"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func resourcePipelineTemplateV2() *schema.Resource {
@@ -105,9 +105,18 @@ func resourcePipelineTemplateV2Read(data *schema.ResourceData, meta interface{})
 
 	reference := fmt.Sprintf("spinnaker://%s", templateID)
 
-	data.Set("template", string(rawTemplate))
-	data.Set("template_id", templateID)
-	data.Set("reference", reference)
+	if err := data.Set("template", string(rawTemplate)); err != nil {
+		return err
+	}
+
+	if err := data.Set("template_id", templateID); err != nil {
+		return err
+	}
+
+	if err := data.Set("reference", reference); err != nil {
+		return err
+	}
+
 	data.SetId(templateID)
 
 	return nil

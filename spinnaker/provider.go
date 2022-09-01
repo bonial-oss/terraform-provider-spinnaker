@@ -4,7 +4,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	gate "github.com/spinnaker/spin/cmd/gateclient"
 	"github.com/spinnaker/spin/cmd/output"
 )

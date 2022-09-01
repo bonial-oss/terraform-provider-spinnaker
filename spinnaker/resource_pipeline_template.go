@@ -9,7 +9,7 @@ import (
 
 	"github.com/Bonial-International-GmbH/terraform-provider-spinnaker/spinnaker/api"
 	"github.com/ghodss/yaml"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func resourcePipelineTemplate() *schema.Resource {
@@ -107,9 +107,18 @@ func resourcePipelineTemplateRead(data *schema.ResourceData, meta interface{}) e
 	if err != nil {
 		return err
 	}
-	data.Set("name", t["id"].(string))
-	data.Set("template", string(raw))
-	data.Set("url", fmt.Sprintf("spinnaker://%s", t["id"].(string)))
+	if err := data.Set("name", t["id"].(string)); err != nil {
+		return err
+	}
+
+	if err := data.Set("template", string(raw)); err != nil {
+		return err
+	}
+
+	if err := data.Set("url", fmt.Sprintf("spinnaker://%s", t["id"].(string))); err != nil {
+		return err
+	}
+
 	data.SetId(t["id"].(string))
 
 	return nil

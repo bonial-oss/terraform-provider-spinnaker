@@ -1,14 +1,15 @@
 package spinnaker
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/acctest"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/acctest"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
 func TestAccSpinnakerApplication_basic(t *testing.T) {
@@ -46,7 +47,7 @@ func testAccCheckApplicationExists(n string) resource.TestCheckFunc {
 			return err
 		}
 
-		err = resource.Retry(1*time.Minute, func() *resource.RetryError {
+		err = resource.RetryContext(context.Background(), 1*time.Minute, func() *resource.RetryError {
 			_, resp, err := client.ApplicationControllerApi.GetApplicationUsingGET(client.Context, rs.Primary.ID, nil)
 			if resp != nil {
 				if resp != nil && resp.StatusCode == http.StatusNotFound {

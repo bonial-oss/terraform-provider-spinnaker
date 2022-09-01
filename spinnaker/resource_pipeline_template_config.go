@@ -8,7 +8,7 @@ import (
 
 	"github.com/Bonial-International-GmbH/terraform-provider-spinnaker/spinnaker/api"
 	"github.com/ghodss/yaml"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 type PipelineConfig struct {
@@ -92,8 +92,14 @@ func resourcePipelineTemplateConfigCreate(data *schema.ResourceData, meta interf
 		return err
 	}
 
-	data.Set("name", pConfig.Name)
-	data.Set("application", pConfig.Application)
+	if err := data.Set("name", pConfig.Name); err != nil {
+		return err
+	}
+
+	if err := data.Set("application", pConfig.Application); err != nil {
+		return err
+	}
+
 	return resourcePipelineTemplateConfigRead(data, meta)
 }
 
@@ -122,12 +128,30 @@ func resourcePipelineTemplateConfigRead(data *schema.ResourceData, meta interfac
 		return err
 	}
 
-	data.Set("name", p.Name)
-	data.Set("application", p.Application)
-	data.Set("parallel", p.Parallel)
-	data.Set("keep_waiting", p.KeepWaitingPipelines)
-	data.Set("limit_concurrent", p.LimitConcurrent)
-	data.Set("pipeline_config", raw)
+	if err := data.Set("name", p.Name); err != nil {
+		return err
+	}
+
+	if err := data.Set("application", p.Application); err != nil {
+		return err
+	}
+
+	if err := data.Set("parallel", p.Parallel); err != nil {
+		return err
+	}
+
+	if err := data.Set("keep_waiting", p.KeepWaitingPipelines); err != nil {
+		return err
+	}
+
+	if err := data.Set("limit_concurrent", p.LimitConcurrent); err != nil {
+		return err
+	}
+
+	if err := data.Set("pipeline_config", raw); err != nil {
+		return err
+	}
+
 	data.SetId(p.ID)
 	return nil
 }

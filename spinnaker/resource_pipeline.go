@@ -7,7 +7,7 @@ import (
 
 	"github.com/Bonial-International-GmbH/terraform-provider-spinnaker/spinnaker/api"
 	apierrors "github.com/Bonial-International-GmbH/terraform-provider-spinnaker/spinnaker/api/errors"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func resourcePipeline() *schema.Resource {
@@ -108,8 +108,14 @@ func resourcePipelineRead(data *schema.ResourceData, meta interface{}) error {
 		return err
 	}
 
-	data.Set("pipeline", encodedPipeline)
-	data.Set("pipeline_id", p.ID)
+	if err := data.Set("pipeline", encodedPipeline); err != nil {
+		return err
+	}
+
+	if err := data.Set("pipeline_id", p.ID); err != nil {
+		return err
+	}
+
 	data.SetId(p.ID)
 
 	return nil
