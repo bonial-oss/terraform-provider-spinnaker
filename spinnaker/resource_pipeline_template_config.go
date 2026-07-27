@@ -233,7 +233,7 @@ func buildConfig(data *schema.ResourceData) (*PipelineConfig, error) {
 
 	var jsonContent map[string]interface{}
 	if err = json.NewDecoder(bytes.NewReader(d)).Decode(&jsonContent); err != nil {
-		return nil, fmt.Errorf("Error decoding json: %s", err.Error())
+		return nil, fmt.Errorf("error decoding json: %s", err.Error())
 	}
 
 	pipeline, ok := jsonContent["pipeline"]

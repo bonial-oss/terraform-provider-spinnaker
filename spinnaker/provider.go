@@ -73,6 +73,8 @@ func (c *clientConfig) Client() (*gate.GatewayClient, error) {
 			c.defaultHeaders,
 			c.configLocation,
 			c.ignoreCertErrors,
+			false,
+			0,
 		)
 	})
 

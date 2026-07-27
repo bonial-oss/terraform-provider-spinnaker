@@ -55,11 +55,11 @@ func resourcePipelineTemplateCreate(data *schema.ResourceData, meta interface{})
 
 	var jsonContent map[string]interface{}
 	if err = json.NewDecoder(bytes.NewReader(d)).Decode(&jsonContent); err != nil {
-		return fmt.Errorf("Error decoding json: %s", err.Error())
+		return fmt.Errorf("error decoding json: %s", err.Error())
 	}
 
 	if _, ok := jsonContent["schema"]; !ok {
-		return fmt.Errorf("Pipeline save command currently only supports pipeline template configurations")
+		return fmt.Errorf("pipeline save command currently only supports pipeline template configurations")
 	}
 
 	templateName = jsonContent["id"].(string)
@@ -142,11 +142,11 @@ func resourcePipelineTemplateUpdate(data *schema.ResourceData, meta interface{})
 
 	var jsonContent map[string]interface{}
 	if err = json.NewDecoder(bytes.NewReader(d)).Decode(&jsonContent); err != nil {
-		return fmt.Errorf("Error decoding json: %s", err.Error())
+		return fmt.Errorf("error decoding json: %s", err.Error())
 	}
 
 	if _, ok := jsonContent["schema"]; !ok {
-		return fmt.Errorf("Pipeline save command currently only supports pipeline template configurations")
+		return fmt.Errorf("pipeline save command currently only supports pipeline template configurations")
 	}
 
 	templateName = jsonContent["id"].(string)
@@ -219,12 +219,12 @@ func areEqualJSON(s1, s2 string) (bool, error) {
 	log.Printf("[DEBUG] s1: %s", s1)
 	err = yaml.Unmarshal([]byte(s1), &o1)
 	if err != nil {
-		return false, fmt.Errorf("Error mashalling string 1 :: %s", err.Error())
+		return false, fmt.Errorf("error mashalling string 1 :: %s", err.Error())
 	}
 	log.Printf("[DEBUG] s2: %s", s2)
 	err = yaml.Unmarshal([]byte(s2), &o2)
 	if err != nil {
-		return false, fmt.Errorf("Error mashalling string 2 :: %s", err.Error())
+		return false, fmt.Errorf("error mashalling string 2 :: %s", err.Error())
 	}
 
 	return reflect.DeepEqual(o1, o2), nil
