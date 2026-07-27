@@ -19,9 +19,9 @@ func GetApplication(client *gate.GatewayClient, applicationName string, dest int
 
 	if resp != nil {
 		if resp != nil && resp.StatusCode == http.StatusNotFound {
-			return fmt.Errorf("Application '%s' not found\n", applicationName)
+			return fmt.Errorf("application %q not found", applicationName)
 		} else if resp.StatusCode != http.StatusOK {
-			return fmt.Errorf("Encountered an error getting application, status code: %d\n", resp.StatusCode)
+			return fmt.Errorf("encountered an error getting application, status code: %d", resp.StatusCode)
 		}
 	}
 
@@ -83,10 +83,10 @@ func CreateApplication(client *gate.GatewayClient, applicationData *schema.Resou
 		return err
 	}
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
-		return fmt.Errorf("Encountered an error saving application, status code: %d\n", resp.StatusCode)
+		return fmt.Errorf("encountered an error saving application, status code: %d", resp.StatusCode)
 	}
 	if !taskSucceeded(task) {
-		return fmt.Errorf("Encountered an error saving application, task output was: %v\n", task)
+		return fmt.Errorf("encountered an error saving application, task output was: %v", task)
 	}
 
 	return nil
@@ -114,7 +114,7 @@ func DeleteAppliation(client *gate.GatewayClient, applicationName string) error 
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("Encountered an error deleting application, status code: %d\n", resp.StatusCode)
+		return fmt.Errorf("encountered an error deleting application, status code: %d", resp.StatusCode)
 	}
 
 	return nil

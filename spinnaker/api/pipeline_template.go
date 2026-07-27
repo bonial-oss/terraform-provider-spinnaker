@@ -1,6 +1,7 @@
 package api
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -23,7 +24,7 @@ func CreatePipelineTemplate(client *gate.GatewayClient, template interface{}) er
 	}
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusAccepted {
-		return fmt.Errorf("Encountered an error saving template, status code: %d\n", resp.StatusCode)
+		return fmt.Errorf("encountered an error saving template, status code: %d", resp.StatusCode)
 	}
 
 	return nil
@@ -37,20 +38,20 @@ func GetPipelineTemplate(client *gate.GatewayClient, templateID string, dest int
 		if resp != nil && resp.StatusCode == http.StatusNotFound {
 			return fmt.Errorf("%s", ErrCodeNoSuchEntityException)
 		}
-		return fmt.Errorf("Encountered an error getting pipeline template %s, %s\n",
+		return fmt.Errorf("encountered an error getting pipeline template %s, %s",
 			templateID,
 			err.Error())
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("Encountered an error getting pipeline template %s, status code: %d\n",
+		return fmt.Errorf("encountered an error getting pipeline template %s, status code: %d",
 			templateID,
 			resp.StatusCode,
 		)
 	}
 
 	if successPayload == nil {
-		return fmt.Errorf(ErrCodeNoSuchEntityException)
+		return errors.New(ErrCodeNoSuchEntityException)
 	}
 
 	if err := mapstructure.Decode(successPayload, dest); err != nil {
@@ -69,7 +70,7 @@ func DeletePipelineTemplate(client *gate.GatewayClient, templateID string) error
 	}
 
 	if resp.StatusCode != http.StatusAccepted {
-		return fmt.Errorf("Encountered an error deleting pipeline template %s, status code: %d\n",
+		return fmt.Errorf("encountered an error deleting pipeline template %s, status code: %d",
 			templateID,
 			resp.StatusCode)
 	}
@@ -88,7 +89,7 @@ func UpdatePipelineTemplate(client *gate.GatewayClient, templateID string, templ
 	}
 
 	if resp.StatusCode != http.StatusAccepted {
-		return fmt.Errorf("Encountered an error updating pipeline template %s, status code: %d\n",
+		return fmt.Errorf("encountered an error updating pipeline template %s, status code: %d",
 			templateID,
 			resp.StatusCode)
 	}
