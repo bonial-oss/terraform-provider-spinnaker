@@ -6,12 +6,11 @@ import (
 	"github.com/Bonial-International-GmbH/terraform-provider-spinnaker/spinnaker/api/errors"
 	"github.com/antihax/optional"
 	"github.com/mitchellh/mapstructure"
-	gate "github.com/spinnaker/spin/cmd/gateclient"
 	gateapi "github.com/spinnaker/spin/gateapi"
 )
 
 // CreatePipelineTemplateV2 creates a pipeline template.
-func CreatePipelineTemplateV2(client *gate.GatewayClient, template *PipelineTemplateV2) error {
+func CreatePipelineTemplateV2(client *Client, template *PipelineTemplateV2) error {
 	_, resp, err := retry(func() (map[string]interface{}, *http.Response, error) {
 		return client.V2PipelineTemplatesControllerApi.CreateUsingPOST1(client.Context, template, nil)
 	})
@@ -23,7 +22,7 @@ func CreatePipelineTemplateV2(client *gate.GatewayClient, template *PipelineTemp
 }
 
 // GetPipelineTemplateV2 fetches the pipeline template with templateID.
-func GetPipelineTemplateV2(client *gate.GatewayClient, templateID string) (*PipelineTemplateV2, error) {
+func GetPipelineTemplateV2(client *Client, templateID string) (*PipelineTemplateV2, error) {
 	payload, resp, err := retry(func() (map[string]interface{}, *http.Response, error) {
 		return client.V2PipelineTemplatesControllerApi.GetUsingGET2(client.Context, templateID, nil)
 	})
@@ -42,7 +41,7 @@ func GetPipelineTemplateV2(client *gate.GatewayClient, templateID string) (*Pipe
 
 // DeletePipelineTemplateV2 deletes the pipeline template with templateID.
 // Either digest or tag can be set on a delete request, but not both.
-func DeletePipelineTemplateV2(client *gate.GatewayClient, templateID, tag, digest string) error {
+func DeletePipelineTemplateV2(client *Client, templateID, tag, digest string) error {
 	opts := &gateapi.V2PipelineTemplatesControllerApiDeleteUsingDELETE1Opts{}
 	if digest != "" {
 		opts.Digest = optional.NewString(digest)
@@ -62,7 +61,7 @@ func DeletePipelineTemplateV2(client *gate.GatewayClient, templateID, tag, diges
 
 // UpdatePipelineTemplateV2 updates the pipeline template with templateID with
 // the data in template.
-func UpdatePipelineTemplateV2(client *gate.GatewayClient, template *PipelineTemplateV2) error {
+func UpdatePipelineTemplateV2(client *Client, template *PipelineTemplateV2) error {
 	_, resp, err := retry(func() (map[string]interface{}, *http.Response, error) {
 		return client.V2PipelineTemplatesControllerApi.UpdateUsingPOST1(client.Context, template.ID, template, nil)
 	})
@@ -75,7 +74,7 @@ func UpdatePipelineTemplateV2(client *gate.GatewayClient, template *PipelineTemp
 
 // ListPipelineTemplateV2Versions lists versions of all available pipeline
 // templates. The resulting map is keyed by template ID.
-func ListPipelineTemplateV2Versions(client *gate.GatewayClient) (map[string][]*PipelineTemplateV2Version, error) {
+func ListPipelineTemplateV2Versions(client *Client) (map[string][]*PipelineTemplateV2Version, error) {
 	var payload interface{}
 
 	_, resp, err := retry(func() (map[string]interface{}, *http.Response, error) {

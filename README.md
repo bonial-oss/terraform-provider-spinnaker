@@ -60,10 +60,40 @@ provider "spinnaker" {
 
 #### Argument Reference
 
-* `server` - The Gate API Url
-* `config` - (Optional) - Path to Gate config file. See the [Spin CLI](https://github.com/spinnaker/spin/blob/master/config/example.yaml) for an example config.
+Every argument can also be set via the environment variable listed alongside it.
+Values set in the provider block take precedence over the environment.
+
+* `server` - (`GATE_URL`) The Gate API Url
+* `config` - (Optional) - (`SPINNAKER_CONFIG_PATH`) Path to Gate config file. See the [Spin CLI](https://github.com/spinnaker/spin/blob/master/config/example.yaml) for an example config. The file is optional and only read for authentication settings that are not provided via the `oauth2_*` arguments below.
 * `ignore_cert_errors` - (Optional) - Set this to `true` to ignore certificate errors from Gate. Defaults to `false`.
 * `default_headers` - (Optional) - Pass through a comma separated set of key value pairs to set default headers for the gate client when sending requests to your gate endpoint e.g. "header1=value1,header2=value2". Defaults to "".
+* `oauth2_client_id` - (Optional) - (`SPINNAKER_OAUTH2_CLIENT_ID`) OAuth2 client ID.
+* `oauth2_client_secret` - (Optional) - (`SPINNAKER_OAUTH2_CLIENT_SECRET`) OAuth2 client secret.
+* `oauth2_token_url` - (Optional) - (`SPINNAKER_OAUTH2_TOKEN_URL`) OAuth2 token endpoint. Defaults to the `/oauth2/token` endpoint of `server`.
+* `oauth2_scope` - (Optional) - (`SPINNAKER_OAUTH2_SCOPE`) Space separated list of OAuth2 scopes to request, e.g. `"scope1 scope2"`. Defaults to requesting no scopes.
+
+#### Authentication
+
+Setting both `oauth2_client_id` and `oauth2_client_secret` enables authentication
+via the [OAuth2 client credentials flow](https://oauth.net/2/grant-types/client-credentials/).
+Setting only one of the two is an error. Access tokens are fetched on demand and
+refreshed automatically once they expire.
+
+```
+provider "spinnaker" {
+  server               = "http://spinnaker-gate.myorg.io"
+  oauth2_client_id     = var.spinnaker_client_id
+  oauth2_client_secret = var.spinnaker_client_secret
+  oauth2_token_url     = "https://myorg.auth.eu-central-1.amazoncognito.com/oauth2/token"
+  oauth2_scope         = "spinnaker/read spinnaker/write"
+}
+```
+
+If the `oauth2_*` arguments are not set, authentication falls back to the `auth`
+section of the Gate config file, which supports the same mechanisms as the Spin
+CLI (x509, basic, LDAP, IAP, Google service accounts and the OAuth2
+authorization code flow). Note that the interactive mechanisms are a poor fit
+for a Terraform provider, as they prompt on stdin.
 
 ## Resources
 

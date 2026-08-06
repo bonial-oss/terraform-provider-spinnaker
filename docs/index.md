@@ -24,3 +24,7 @@ description: |-
 - **config** (String) Path to Gate config file
 - **default_headers** (String) Headers to be passed to the gate endpoint by the client on each request
 - **ignore_cert_errors** (Boolean) Ignore certificate errors from Gate
+- **oauth2_client_id** (String) OAuth2 client ID. Enables authentication via the OAuth2 client credentials flow together with oauth2_client_secret
+- **oauth2_client_secret** (String, Sensitive) OAuth2 client secret. Enables authentication via the OAuth2 client credentials flow together with oauth2_client_id
+- **oauth2_scope** (String) Space separated list of OAuth2 scopes to request. Defaults to requesting no scopes
+- **oauth2_token_url** (String) OAuth2 token endpoint. Defaults to the /oauth2/token endpoint of the Gate URL
