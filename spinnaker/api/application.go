@@ -9,10 +9,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/mitchellh/mapstructure"
-	gate "github.com/spinnaker/spin/cmd/gateclient"
 )
 
-func GetApplication(client *gate.GatewayClient, applicationName string, dest interface{}) error {
+func GetApplication(client *Client, applicationName string, dest interface{}) error {
 	app, resp, err := retry(func() (map[string]interface{}, *http.Response, error) {
 		return client.ApplicationControllerApi.GetApplicationUsingGET(client.Context, applicationName, nil)
 	})
@@ -36,7 +35,7 @@ func GetApplication(client *gate.GatewayClient, applicationName string, dest int
 	return nil
 }
 
-func CreateApplication(client *gate.GatewayClient, applicationData *schema.ResourceData) error {
+func CreateApplication(client *Client, applicationData *schema.ResourceData) error {
 	applicationName := applicationData.Get("application").(string)
 	app := map[string]interface{}{
 		"instancePort":   80,
@@ -92,7 +91,7 @@ func CreateApplication(client *gate.GatewayClient, applicationData *schema.Resou
 	return nil
 }
 
-func DeleteAppliation(client *gate.GatewayClient, applicationName string) error {
+func DeleteAppliation(client *Client, applicationName string) error {
 	jobSpec := map[string]interface{}{
 		"type": "deleteApplication",
 		"application": map[string]interface{}{

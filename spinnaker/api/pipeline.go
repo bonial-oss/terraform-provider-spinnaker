@@ -5,10 +5,9 @@ import (
 
 	"github.com/Bonial-International-GmbH/terraform-provider-spinnaker/spinnaker/api/errors"
 	"github.com/mitchellh/mapstructure"
-	gate "github.com/spinnaker/spin/cmd/gateclient"
 )
 
-func CreatePipeline(client *gate.GatewayClient, pipeline interface{}) error {
+func CreatePipeline(client *Client, pipeline interface{}) error {
 	_, resp, err := retry(func() (map[string]interface{}, *http.Response, error) {
 		resp, err := client.PipelineControllerApi.SavePipelineUsingPOST(client.Context, pipeline, nil)
 
@@ -21,7 +20,7 @@ func CreatePipeline(client *gate.GatewayClient, pipeline interface{}) error {
 	return nil
 }
 
-func GetPipeline(client *gate.GatewayClient, applicationName, pipelineName string, dest interface{}) (map[string]interface{}, error) {
+func GetPipeline(client *Client, applicationName, pipelineName string, dest interface{}) (map[string]interface{}, error) {
 	payload, resp, err := retry(func() (map[string]interface{}, *http.Response, error) {
 		return client.ApplicationControllerApi.GetPipelineConfigUsingGET(
 			client.Context,
@@ -40,7 +39,7 @@ func GetPipeline(client *gate.GatewayClient, applicationName, pipelineName strin
 	return payload, nil
 }
 
-func UpdatePipeline(client *gate.GatewayClient, pipelineID string, pipeline interface{}) error {
+func UpdatePipeline(client *Client, pipelineID string, pipeline interface{}) error {
 	_, resp, err := retry(func() (map[string]interface{}, *http.Response, error) {
 		return client.PipelineControllerApi.UpdatePipelineUsingPUT(client.Context, pipelineID, pipeline)
 	})
@@ -51,7 +50,7 @@ func UpdatePipeline(client *gate.GatewayClient, pipelineID string, pipeline inte
 	return nil
 }
 
-func DeletePipeline(client *gate.GatewayClient, applicationName, pipelineName string) error {
+func DeletePipeline(client *Client, applicationName, pipelineName string) error {
 	_, resp, err := retry(func() (map[string]interface{}, *http.Response, error) {
 		resp, err := client.PipelineControllerApi.DeletePipelineUsingDELETE(
 			client.Context,
@@ -70,7 +69,7 @@ func DeletePipeline(client *gate.GatewayClient, applicationName, pipelineName st
 // RecreatePipeline is a convenience function for deleting and subsequently
 // recreating a pipeline. It will return an error if either of the delete and
 // create operations fails.
-func RecreatePipeline(client *gate.GatewayClient, applicationName, pipelineName string, pipeline interface{}) error {
+func RecreatePipeline(client *Client, applicationName, pipelineName string, pipeline interface{}) error {
 	err := DeletePipeline(client, applicationName, pipelineName)
 	if err != nil {
 		return err

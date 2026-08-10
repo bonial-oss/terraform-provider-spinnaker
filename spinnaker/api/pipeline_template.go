@@ -6,14 +6,13 @@ import (
 	"net/http"
 
 	"github.com/mitchellh/mapstructure"
-	gate "github.com/spinnaker/spin/cmd/gateclient"
 )
 
 const (
 	ErrCodeNoSuchEntityException = "NoSuchEntityException"
 )
 
-func CreatePipelineTemplate(client *gate.GatewayClient, template interface{}) error {
+func CreatePipelineTemplate(client *Client, template interface{}) error {
 	_, resp, err := retry(func() (map[string]interface{}, *http.Response, error) {
 		resp, err := client.PipelineTemplatesControllerApi.CreateUsingPOST(client.Context, template)
 
@@ -30,7 +29,7 @@ func CreatePipelineTemplate(client *gate.GatewayClient, template interface{}) er
 	return nil
 }
 
-func GetPipelineTemplate(client *gate.GatewayClient, templateID string, dest interface{}) error {
+func GetPipelineTemplate(client *Client, templateID string, dest interface{}) error {
 	successPayload, resp, err := retry(func() (map[string]interface{}, *http.Response, error) {
 		return client.PipelineTemplatesControllerApi.GetUsingGET(client.Context, templateID)
 	})
@@ -61,7 +60,7 @@ func GetPipelineTemplate(client *gate.GatewayClient, templateID string, dest int
 	return nil
 }
 
-func DeletePipelineTemplate(client *gate.GatewayClient, templateID string) error {
+func DeletePipelineTemplate(client *Client, templateID string) error {
 	_, resp, err := retry(func() (map[string]interface{}, *http.Response, error) {
 		return client.PipelineTemplatesControllerApi.DeleteUsingDELETE(client.Context, templateID, nil)
 	})
@@ -78,7 +77,7 @@ func DeletePipelineTemplate(client *gate.GatewayClient, templateID string) error
 	return nil
 }
 
-func UpdatePipelineTemplate(client *gate.GatewayClient, templateID string, template interface{}) error {
+func UpdatePipelineTemplate(client *Client, templateID string, template interface{}) error {
 	_, resp, err := retry(func() (map[string]interface{}, *http.Response, error) {
 		resp, err := client.PipelineTemplatesControllerApi.UpdateUsingPOST(client.Context, templateID, template, nil)
 
