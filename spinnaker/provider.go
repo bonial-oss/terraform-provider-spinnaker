@@ -5,7 +5,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/Bonial-International-GmbH/terraform-provider-spinnaker/spinnaker/api"
+	"github.com/bonial-oss/terraform-provider-spinnaker/spinnaker/api"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 

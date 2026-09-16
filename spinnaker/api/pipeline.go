@@ -3,7 +3,7 @@ package api
 import (
 	"net/http"
 
-	"github.com/Bonial-International-GmbH/terraform-provider-spinnaker/spinnaker/api/errors"
+	"github.com/bonial-oss/terraform-provider-spinnaker/spinnaker/api/errors"
 	"github.com/mitchellh/mapstructure"
 )
 

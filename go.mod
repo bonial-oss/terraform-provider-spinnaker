@@ -1,4 +1,4 @@
-module github.com/Bonial-International-GmbH/terraform-provider-spinnaker
+module github.com/bonial-oss/terraform-provider-spinnaker
 
 go 1.25.8
 

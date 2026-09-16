@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/Bonial-International-GmbH/terraform-provider-spinnaker/spinnaker"
+	"github.com/bonial-oss/terraform-provider-spinnaker/spinnaker"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
 )
