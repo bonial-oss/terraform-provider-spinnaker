@@ -3,8 +3,8 @@ package api
 import (
 	"net/http"
 
-	"github.com/bonial-oss/terraform-provider-spinnaker/spinnaker/api/errors"
 	"github.com/antihax/optional"
+	"github.com/bonial-oss/terraform-provider-spinnaker/spinnaker/api/errors"
 	"github.com/mitchellh/mapstructure"
 	gateapi "github.com/spinnaker/spin/gateapi"
 )
