@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/Bonial-International-GmbH/terraform-provider-spinnaker/spinnaker/api"
-	apierrors "github.com/Bonial-International-GmbH/terraform-provider-spinnaker/spinnaker/api/errors"
+	"github.com/bonial-oss/terraform-provider-spinnaker/spinnaker/api"
+	apierrors "github.com/bonial-oss/terraform-provider-spinnaker/spinnaker/api/errors"
 	"github.com/hashicorp/go-multierror"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
